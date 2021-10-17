@@ -1,0 +1,86 @@
+---
+CLUSTER_NAME_AKS_WEST: &cluster_name_aks_west '<cluster-aks-west-name>'
+CLUSTER_NAME_EKS_EAST: &cluster_name_eks_east '<cluster-eks-east-name>'
+
+
+AZURE_APP_ID: &azure_app_id ''
+AZURE_PASSWORD: &azure_password '' 
+
+AWS_ACCESS_KEY_ID: &aws_access_key_id ''
+AWS_SECRET_ACCESS_KEY: &aws_secret_access_key ''
+AWS_SESSION_TOKEN: &aws_session_token '' #optional.  Please specifiy if using CloudGate
+
+TSM_API_SERVER: &tsm_api_server ''
+TSM_API_KEY: &tsm_api_key ''
+
+
+
+TASKS_CREATE: &create_task
+  - aks: akswest-cfg
+  - eks: ekseast-cfg
+  - tsmCluster: tsmakswest-cfg
+  - tsmCluster: tsmekseast-cfg
+
+
+TASKS_DESTROY: &destroy_task
+  - tsmCluster: tsmakswest-cfg
+  - tsmCluster: tsmekseast-cfg
+  - aks: akswest-cfg
+  - eks: ekseast-cfg
+
+
+
+# create
+CLUSTER_ACTION: &cluster_action 'CREATE'
+TSM_ACTION: &tsm_action 'ADD'  
+TASKS: *create_task
+ 
+
+# destroy
+#CLUSTER_ACTION: &cluster_action 'DESTROY'
+#TSM_ACTION: &tsm_action 'REMOVE'  
+#TASKS: *destroy_task
+
+
+
+akswest-cfg:
+  ACTION: *cluster_action
+  AKS_CLUSTER_NAME: *cluster_name_aks_west
+  AZURE_REGION: 'West US 2'
+  AZURE_APP_ID: *azure_app_id
+  AZURE_PASSWORD: *azure_password
+  AKS_NUM_NODES: 2
+  AKS_NODE_SIZE: 'Standard_D4_v3'
+  AKS_K8S_VERSION: '1.20.9'
+
+
+ekseast-cfg:
+  ACTION: *cluster_action
+  EKS_CLUSTER_NAME: *cluster_name_eks_east
+  EKS_NUM_NODES: 3
+  EKS_NODE_SIZE: "t2.xlarge"
+  EKS_K8S_VERSION: "1.20"
+  AWS_REGION: 'us-east-2'
+  AWS_ACCESS_KEY_ID: *aws_access_key_id
+  AWS_SECRET_ACCESS_KEY: *aws_secret_access_key
+  AWS_SESSION_TOKEN: *aws_session_token
+
+
+
+tsmakswest-cfg:
+  ACTION: *tsm_action
+  TSM_CLUSTER_NAME: *cluster_name_aks_west
+  TSM_API_SERVER: *tsm_api_server
+  TSM_API_KEY: *tsm_api_key
+
+
+tsmekseast-cfg:
+  ACTION: *tsm_action
+  TSM_CLUSTER_NAME: *cluster_name_eks_east
+  TSM_API_SERVER: *tsm_api_server
+  TSM_API_KEY: *tsm_api_key
+  ENV_VARIABLES:
+    - AWS_ACCESS_KEY_ID: *aws_access_key_id
+    - AWS_SECRET_ACCESS_KEY: *aws_secret_access_key
+    - AWS_SESSION_TOKEN: *aws_session_token
+
