@@ -1,0 +1,34 @@
+#!/usr/bin/expect
+
+#Usage sshsudologin.expect <host> <ssh user> <ssh password> <su user> <su password>
+
+set timeout 8
+
+log_user 0
+
+spawn ssh [lindex $argv 1]@[lindex $argv 0]
+
+set tpid [exp_pid -i $spawn_id]
+
+log_user 0
+
+
+#expect "yes/no" { 
+#	send "yes\r"
+#	expect "*?assword" { send "[lindex $argv 2]\r" }
+#	} "*?assword" { send "[lindex $argv 2]\r" }
+
+log_user 0
+
+expect {
+    ")?"     { send "yes\r"  ; exp_continue  }
+    "word:"  { send "[lindex $argv 2]\r"                }
+    timeout  { puts "SSH is disabled or Host is unreachable"; exec kill -9 $tpid; exit 1 }
+	eof      { puts "SSH is disabled or Host is unreachable!"; exec kill -9 $tpid; exit 1 }
+}
+
+
+expect {
+	":~] "   { send "exit\r"; puts "SSH session success" }
+    timeout  { puts "Username or Password incorrect"; exec kill -9 $tpid; exit 2 }	
+}

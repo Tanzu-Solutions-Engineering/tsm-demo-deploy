@@ -1,0 +1,21 @@
+---
+HOST_USER: &hostuser '<username>'
+HOST_PASSWORD: &hostpassword '<password>'
+
+TESTS:
+  - dnsTest: dnsCFG
+  - sshTest: sshCFG 
+
+dnsCFG:
+  VC_HOST: vcenter.sgrhas.local
+  VC_IP: 192.168.1.30
+  DNS_SERVERS:
+    - '192.168.1.1'
+    - '192.168.1.2'  
+
+sshCFG:
+  HOST: '192.168.1.14'
+  USER: *hostuser
+  PASSWORD: *hostpassword
+  
+
