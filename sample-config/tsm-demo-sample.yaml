@@ -10,9 +10,9 @@ AZURE_PASSWORD: &azure_password ''
 
 AWS_ACCESS_KEY_ID: &aws_access_key_id ''
 AWS_SECRET_ACCESS_KEY: &aws_secret_access_key ''
-AWS_SESSION_TOKEN: &aws_session_token '' #optional.  Please specifiy if using CloudGate
+AWS_SESSION_TOKEN: &aws_session_token '' # optional.  Please specifiy if using CloudGate
 
-TSM_API_SERVER: &tsm_api_server ''
+TSM_API_SERVER: &tsm_api_server '' # eg. prod-2.nsxservicemesh.vmware.com
 TSM_API_KEY: &tsm_api_key ''
 
 ###
