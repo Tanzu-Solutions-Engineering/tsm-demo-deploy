@@ -19,6 +19,8 @@ The following disects the yaml sample in more detail.
 Specify the cluster names for your deployment.  In this example specify the cluster name for your AKS cluster and your EKS cluster.  Also specify the API keys for Azure, AWS and TSM.  Please note that `AWS_SESSION_TOKEN` is optional, however if your keys have been provided through CloudGate then this is required.  This sample uses yaml anchors(&) and aliases(*) which act like variables that can be reused throughout the yaml file. 
 
 ```yaml
+### Please fill within '' for all fields below
+
 CLUSTER_NAME_AKS_WEST: &cluster_name_aks_west ''
 CLUSTER_NAME_EKS_EAST: &cluster_name_eks_east ''
 
@@ -84,6 +86,17 @@ akswest-cfg:
 Please note that in order to provision an AKS cluster you'll need to login to azure first using the azure command line utility `az`
 ```shell
 $ az login
+```
+Also...`AZURE_APP_ID` and `AZURE_PASSWORD` pertain to an Active Directory service principal account.  You can use an existing account or create one using the following command:
+```shell
+$  az ad sp create-for-rbac --skip-assignment
+{
+  "appId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+  "displayName": "azure-cli-2019-04-11-00-46-05",
+  "name": "http://azure-cli-2019-04-11-00-46-05",
+  "password": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+  "tenant": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+}
 ```
 
 ### EKS Task

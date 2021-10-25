@@ -1,4 +1,6 @@
 ---
+### Please fill within '' for all fields below
+
 CLUSTER_NAME_AKS_WEST: &cluster_name_aks_west ''
 CLUSTER_NAME_EKS_EAST: &cluster_name_eks_east ''
 
@@ -13,7 +15,7 @@ AWS_SESSION_TOKEN: &aws_session_token '' #optional.  Please specifiy if using Cl
 TSM_API_SERVER: &tsm_api_server ''
 TSM_API_KEY: &tsm_api_key ''
 
-
+###
 
 TASKS_CREATE: &create_task
   - aks: akswest-cfg
